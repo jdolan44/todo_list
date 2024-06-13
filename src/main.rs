@@ -24,25 +24,6 @@ fn read_string() -> String{
     return String::from(input.trim());
 }
 
-fn read_number() -> u32{
-    loop{
-        let mut input = String::new();
-
-        io::stdin()
-                .read_line(&mut input)
-                .expect("Failed to read line!");
-        
-        let input: u32 = match input.trim().parse() {
-            Ok(num) => num,
-            Err(_) => {
-                println!("invalid input! try again."); 
-                continue;
-            }
-        };
-        return input;
-    }
-}
-
 fn print_tasks(tasks: &Vec<Task>){
     println!("My tasks:");
     for task in tasks{
