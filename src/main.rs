@@ -24,9 +24,33 @@ fn read_string() -> String{
     return String::from(input.trim());
 }
 
-fn main() {
-    //let v = vec![1, 2, 3];
-    //dbg!(v);
+fn read_number() -> u32{
+    loop{
+        let mut input = String::new();
+
+        io::stdin()
+                .read_line(&mut input)
+                .expect("Failed to read line!");
+        
+        let input: u32 = match input.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("invalid input! try again."); 
+                continue;
+            }
+        };
+        return input;
+    }
+}
+
+fn print_tasks(tasks: &Vec<Task>){
+    println!("My tasks:");
+    for task in tasks{
+        task.print();
+    }
+}
+
+fn add_task(tasks: &mut Vec<Task>){
     println!("Enter task name:");
     let name = read_string();
 
@@ -36,9 +60,31 @@ fn main() {
     let task = Task{
         name,
         due_date,
-        completed: true
+        completed: false
     };
+    tasks.push(task);
+}
 
-    //dbg!(&task);
-    task.print();
+fn display_options(){
+    println!("\n");
+    println!("+: add a task");
+    println!("d: display all tasks");
+    println!("q: quit");
+}
+
+fn main() {
+    //initialize task list
+    let mut tasks: Vec<Task> = Vec::new();
+    display_options();
+    loop{
+        println!("Please make a selection (o for all options):");
+        let choice = read_string();
+        match choice.trim(){
+            "+" => add_task(&mut tasks),
+            "d" => print_tasks(&tasks),
+            "o" => display_options(),
+            "q" => break,
+            _ => println!("Invalid option, try again!")
+        }
+    }
 }
